@@ -1,0 +1,23 @@
+#!/bin/sh
+
+bzcat "$1" | 
+perl -lane 'BEGIN{$ignore=1}{$ignore=0 if /<title>(?!Wiktionary|Appendix|Index|Template|Category|Thread)|{{en-noun|{{en-verb|{{en-adj|{{en-adv|{{en-pron|{{en-proper/;$ignore=1 if /==|<title>Wiktionary|<title>Appendix|<title>Index|<title>Template|<title>Category|<title>Thread/;print $_ if !$ignore}' |
+perl -lane  'print $_ if /<title>|===Noun|===Adjective|===Verb|===Adverb|===Pronoun|===Proper noun|==Translations|{{en-adj|{{en-noun|{{en-adv|{{en-pron|{{en-proper|{{en-verb|^# |^## /' |
+perl -pe 's/\[\[([\w\s-]*?)\]\]/$1/g;s/\[\[.*?\|(\w*?)\]\]/$1/g;s/^ *//g' |
+perl -pe 's/\{\{lb\|en\|(.*?)\}\}/\($1\)/g;s/\|/, /g' |
+perl -lane '$title=$_ if /<title>/;$type=$_ if /{{en-/; print $title," ",$type," ",$_ if /#/' |
+perl -pe 's/<title>|<\/title>//g' |
+perl -pe "s/{{en-noun.*?}}/(noun)/g;s/{{en-verb.*?}}/(verb)/g;s/{{en-adj.*?}}/(adjective)/g;s/{{en-adv.*?}}/(adverb)/g;s/{{en-pron/(pronoun)/g;s/{{en-proper.*?}}/(proper noun)/g" |
+perl -pe 's/{{/(/g;s/}}/)/g' |
+perl -pe "s/&lt;ref.*$//g;s/&lt;sup&gt;th&lt;\/sup&gt\;/th /g;s/\(defdate, /\(/g" |
+perl -pe "s/'''/\"/g;s/''/\"/g" |
+perl -pe "s/\[\[/(/g;s/\]\]/)/g" |
+perl -pe "s/taxlink(|2), //g;s/, noshow=1//g;s/, ver=\d+//g;s/\(senseid, en, Q\d+\)//g" |
+perl -pe "s/\(senseid, en, /\(/g;s/\)\(/\) \(/g;s/&quot;/\"/g;s/&lt\;//g;s/&gt\;//g" |
+perl -pe 's/from=English//g;s/desc=//g;s/from=/from /g;s/, en,//g;s/ _,//g;s/\(l (.*?)\)/$1/g;s/\(w, (.*?)\)/$1/g;s/(,|) nodot=.*?\)|(,|) dot=.*?\)/\)/g;s/(\(| )w:/ /g;s/:w://g;s/W://g;s/usage=/usage /g;s/var(|\d)=/variant /g;s/\(rfquote-sense, en\)//g' |
+perl -pe 's/capital=/capital /g;s/ c\/| s\/| co\/| r\/| cc\/| cont\/| p\/| county\/| town\/| city\/| department\/| terr\/| sar\/| carea\/| area\/| lgdist\/| ocean\/| state\/| country\/| subdistrict\/| district\/| province\/| isl\/| arch\/| val\/| community\/| republic\/| par\/| dist\/| continent\// /g' |
+perl -pe 's/official=/official /g;s/largest city(=|:)/largest city /g;s/<\/text>//g;s/&amp;(,|nbsp;|lit)//g;s/&amp;minus;/-/g;s/&amp;//g;s/\(n-g, /\(/g' |
+perl -pe 's/!--.*?--//g;s/!--//g' |
+perl -pe 's/\[https:\S*? (.*?)\]/$1/g' |
+perl -pe 's/\[https:.*?\]//g'
+

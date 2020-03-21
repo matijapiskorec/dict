@@ -1,0 +1,7 @@
+#!/bin/sh
+
+header="To search the whole line delete the first ^ character. Select multiple entries with Tab."
+
+zcat data/enwiktionary-20200301.txt.gz | 
+fzf --height 60% --reverse --exact --no-sort -m --tiebreak=begin --query=^ --header="$header" 
+
