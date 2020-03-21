@@ -2,7 +2,7 @@
 
 Blazingly fast full-text English Wiktionary search in command line. Only word type (noun, verb, adjective...) and basic definition is included in order to make search as fast as possible.
 
-![dict screencast](/images/dict-tty-screencast.gif)
+![dict screencast](https://raw.githubusercontent.com/matijapiskorec/dict/master/image/dict-tty-screencast.gif)
 
 Run in command line (make sure it is executable with `chmod +x dict`):
 ```
