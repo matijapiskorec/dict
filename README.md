@@ -1,6 +1,6 @@
 # dict
 
-Blazingly fast full-text English Wiktionary search in command line. Only word type (noun, verb, adjective...) and basic definition is included in order to make search as fast as possible.
+Blazingly fast full-text English Wiktionary search in command line. Includes word type and basic definitions of over 781K word meanings in English Wiktionary.
 
 ![dict screencast](https://raw.githubusercontent.com/matijapiskorec/dict/master/image/dict-tty-screencast.gif)
 
